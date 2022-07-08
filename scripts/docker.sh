@@ -4,7 +4,7 @@ set -e
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 LIB_DIR="${DIR}/lib"
-VERSION="1.15.2-rc1"
+VERSION="1.15.3-rc1"
 
 remote_image_name="gcr.io/outreach-docker/temporal/temporal-web"
 
@@ -36,10 +36,8 @@ info "🔐 Scanning docker image for vulnerabilities"
 
 echo "Branch: ${CIRCLE_BRANCH}"
 
-if [ "$CIRCLE_BRANCH" = "master" ]; then
-  echo "🔨 Building and Pushing Docker Image (production)"
-  (
-    set -x
-    docker buildx build "${args[@]}" -t "${remote_image_name}:${VERSION}" -t "$remote_image_name:latest" --push .
-  )
-fi
+echo "🔨 Building and Pushing Docker Image (production)"
+(
+  set -x
+  docker buildx build "${args[@]}" -t "${remote_image_name}:${VERSION}" -t "$remote_image_name:latest" --push .
+)
